@@ -13,3 +13,5 @@ cd .\bin\Release\netcoreapp2.2\publish\
 call heroku container:login
 call heroku container:push web -a %APP_NAME%
 call heroku container:release web -a %APP_NAME%
+
+
