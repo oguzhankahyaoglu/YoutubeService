@@ -5,3 +5,5 @@ SET APP_NAME="ytdownloader-api"
 docker build -t %APP_NAME% .
 heroku container:push web -a %APP_NAME%
 heroku container:release web -a %APP_NAME%
+
+PAUSE
