@@ -6,4 +6,4 @@ call docker build -t %APP_NAME% .
 call heroku container:push web -a %APP_NAME%
 call heroku container:release web -a %APP_NAME%
 
-PAUSE
+PAUSE 
