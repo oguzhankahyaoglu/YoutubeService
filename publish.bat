@@ -3,13 +3,13 @@ REM : Setup your applications name below
 SET APP_NAME="ytdownloader-api"
 
 REM - Delete all files and folders in publish
-del /q ".\bin\Release\netcoreapp2.2\publish\*"
-FOR /D %%p IN (".\bin\Release\netcoreapp2.2\publish\*.*") DO rmdir "%%p" /s /q
+del /q ".\YoutubeService\bin\Debug\netcoreapp3.1\*"
+FOR /D %%p IN (".\YoutubeService\bin\Debug\netcoreapp3.1\*.*") DO rmdir "%%p" /s /q
 
 dotnet clean --configuration Release
 dotnet publish -c Release
-copy Dockerfile .\bin\Release\netcoreapp2.2\publish\
-cd .\bin\Release\netcoreapp2.2\publish\
+copy Dockerfile .\YoutubeService\bin\Debug\netcoreapp3.1\publish\
+cd .\YoutubeService\bin\Debug\netcoreapp3.1\publish\
 call heroku container:login
 call heroku container:push web -a %APP_NAME%
 call heroku container:release web -a %APP_NAME%

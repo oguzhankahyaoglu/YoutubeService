@@ -1,6 +1,7 @@
 ﻿using Google.Apis.Services;
 using Google.Apis.YouTube.v3;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using YoutubeService.Model;
 
 namespace YoutubeService.Controllers
@@ -9,13 +10,20 @@ namespace YoutubeService.Controllers
     [ApiController]
     public class PlaylistController : ControllerBase
     {
+        private readonly IConfiguration _configuration;
+
+        public PlaylistController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         [HttpGet("{playlistid}")]
         public ActionResult<YoutubePlaylist> Get(string playlistid)
         {
             var youtubeService = new YouTubeService(new BaseClientService.Initializer
             {
-                ApplicationName = "YoutubeListSyncronizer",
-                ApiKey = "AIzaSyDgUR4esr5twkPl5jRwGlx6yPGR8e6zBPs"
+                ApplicationName = _configuration["AppName"],
+                ApiKey = _configuration["ApiKey"]
             });
             var result = new YoutubePlaylist
             {
@@ -26,6 +34,8 @@ namespace YoutubeService.Controllers
                 var request = youtubeService.Playlists.List("snippet");
                 request.Id = playlistid;
                 var response = request.Execute();
+                if (response.Items == null || response.Items.Count == 0)
+                    return new YoutubePlaylist();
                 result.PlaylistName = response.Items[0].Snippet.Title;
             }
 
